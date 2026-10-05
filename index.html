@@ -1,0 +1,1666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FoodLoop - Share Food, Reduce Waste</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7f5;
+    color: #26332a;
+}
+
+/* HEADER */
+header {
+    background: #1f7a4d;
+    color: white;
+    padding: 18px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+nav {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+nav button {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 9px 13px;
+    cursor: pointer;
+    font-size: 15px;
+    border-radius: 6px;
+}
+
+nav button:hover {
+    background: rgba(255,255,255,0.18);
+}
+
+/* GENERAL */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.page {
+    display: none;
+    padding: 35px 0;
+}
+
+.page.active {
+    display: block;
+}
+
+h1, h2, h3 {
+    margin-bottom: 15px;
+}
+
+/* HERO */
+.hero {
+    background: linear-gradient(135deg, #e6f7ec, #ffffff);
+    padding: 70px 20px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 44px;
+    color: #17663f;
+}
+
+.hero p {
+    font-size: 19px;
+    margin: 15px auto 25px;
+    max-width: 700px;
+    line-height: 1.6;
+}
+
+.hero button {
+    background: #1f7a4d;
+    color: white;
+    border: none;
+    padding: 13px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.hero button:hover {
+    background: #155d39;
+}
+
+/* FEATURES */
+.features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 35px;
+}
+
+.feature {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+}
+
+.feature-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+/* FORM */
+.form-box {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+    max-width: 750px;
+    margin: auto;
+}
+
+.form-group {
+    margin-bottom: 17px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccd6ce;
+    border-radius: 7px;
+    font-size: 15px;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 13px;
+    background: #1f7a4d;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background: #155d39;
+}
+
+/* SEARCH */
+.search-area {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 12px;
+    margin: 20px 0 30px;
+}
+
+/* FOOD CARDS */
+.food-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.food-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    position: relative;
+}
+
+.food-icon {
+    font-size: 38px;
+    margin-bottom: 10px;
+}
+
+.food-card h3 {
+    color: #17663f;
+}
+
+.category {
+    display: inline-block;
+    background: #e4f4e9;
+    color: #17663f;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin-bottom: 12px;
+}
+
+.food-info {
+    line-height: 1.7;
+    font-size: 14px;
+}
+
+.status {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 15px;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.available {
+    background: #dff5e7;
+    color: #16703e;
+}
+
+.soon {
+    background: #fff0c9;
+    color: #9a6500;
+}
+
+.expired {
+    background: #ffdede;
+    color: #b42323;
+}
+
+.card-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.claim-btn,
+.remove-btn {
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    flex: 1;
+}
+
+.claim-btn {
+    background: #1f7a4d;
+    color: white;
+}
+
+.remove-btn {
+    background: #f1dddd;
+    color: #a51f1f;
+}
+
+.claim-btn:hover {
+    background: #155d39;
+}
+
+.remove-btn:hover {
+    background: #e7caca;
+}
+
+/* DASHBOARD */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-top: 25px;
+}
+
+.stat-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+}
+
+.stat-card h2 {
+    color: #1f7a4d;
+    font-size: 32px;
+}
+
+.progress-box {
+    background: white;
+    margin-top: 25px;
+    padding: 25px;
+    border-radius: 12px;
+}
+
+.progress {
+    width: 100%;
+    height: 20px;
+    background: #e4e9e5;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 12px;
+}
+
+.progress-bar {
+    height: 100%;
+    background: #1f7a4d;
+    width: 0%;
+}
+
+/* SAFETY */
+.safety-note {
+    background: #fff8df;
+    border-left: 5px solid #e1ae24;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    line-height: 1.5;
+}
+
+/* TOAST */
+.toast {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: #26332a;
+    color: white;
+    padding: 14px 20px;
+    border-radius: 8px;
+    display: none;
+    z-index: 999;
+}
+
+/* EMPTY */
+.empty {
+    text-align: center;
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    color: #777;
+}
+
+/* FOOTER */
+footer {
+    background: #173b29;
+    color: white;
+    text-align: center;
+    padding: 25px;
+    margin-top: 40px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .food-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .features {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+
+    .food-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .search-area {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="logo">🍃 FoodLoop</div>
+
+    <nav>
+        <button onclick="showPage('home')">Home</button>
+        <button onclick="showPage('add')">Add Food</button>
+        <button onclick="showPage('available')">Available Food</button>
+        <button onclick="showPage('dashboard')">Dashboard</button>
+        <button onclick="resetFoodData()" style="
+    background:#ffffff;
+    color:#1f7a4d;
+    border:none;
+    padding:8px 12px;
+    border-radius:6px;
+    cursor:pointer;
+">
+    🔄 Reset Demo Data
+</button>
+    </nav>
+</header>
+
+
+<!-- HOME -->
+<section id="home" class="page active">
+
+    <div class="hero">
+        <div class="container">
+            <h1>Turn Surplus Food Into Hope</h1>
+
+            <p>
+                FoodLoop connects surplus food with people who need it,
+                helping communities reduce food waste and share resources.
+            </p>
+
+            <button onclick="showPage('add')">
+                + Share Surplus Food
+            </button>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="features">
+
+            <div class="feature">
+                <div class="feature-icon">🍱</div>
+                <h3>Share Food</h3>
+                <p>List extra food that is available for sharing.</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">🤝</div>
+                <h3>Connect</h3>
+                <p>Help people discover and claim available food.</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">🌱</div>
+                <h3>Reduce Waste</h3>
+                <p>Convert surplus food into meaningful community impact.</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ADD FOOD -->
+<section id="add" class="page">
+
+    <div class="container">
+
+        <h2>🍱 Add Surplus Food</h2>
+
+        <div class="form-box">
+
+            <div class="safety-note">
+                🛡️ <strong>Food Safety:</strong>
+                Please list only food that is suitable for sharing
+                and safe for consumption.
+            </div>
+
+            <form id="foodForm">
+
+                <div class="form-group">
+                    <label>Food Name</label>
+                    <input
+                        type="text"
+                        id="foodName"
+                        placeholder="Example: Vegetable Rice"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Category</label>
+
+                    <select id="category" required>
+
+                        <option value="">Select Category</option>
+
+                        <option value="Cooked Food">
+                            Cooked Food
+                        </option>
+
+                        <option value="Bakery">
+                            Bakery
+                        </option>
+
+                        <option value="Vegetables">
+                            Vegetables
+                        </option>
+
+                        <option value="Fruits">
+                            Fruits
+                        </option>
+
+                        <option value="Snacks">
+                            Snacks
+                        </option>
+
+                        <option value="Packed Food">
+                            Packed Food
+                        </option>
+
+                        <option value="Beverages">
+                            Beverages
+                        </option>
+
+                        <option value="Dairy">
+                            Dairy
+                        </option>
+
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Quantity / Portions</label>
+
+                    <input
+                        type="number"
+                        id="quantity"
+                        min="1"
+                        placeholder="Example: 20"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Donor Name / Organization</label>
+
+                    <input
+                        type="text"
+                        id="donor"
+                        placeholder="Example: College Canteen"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Contact Number</label>
+
+                    <input
+                        type="tel"
+                        id="contact"
+                        maxlength="10"
+                        placeholder="10 digit mobile number"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Pickup Location</label>
+
+                    <input
+                        type="text"
+                        id="location"
+                        placeholder="Example: College Auditorium"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Available Until</label>
+
+                    <input
+                        type="datetime-local"
+                        id="until"
+                        required
+                    >
+                </div>
+
+                <button class="submit-btn" type="submit">
+                    Post Food
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- AVAILABLE FOOD -->
+<section id="available" class="page">
+
+    <div class="container">
+
+        <h2>🍎 Available Food</h2>
+
+        <p>
+            Browse surplus food available in the community.
+        </p>
+
+        <div class="search-area">
+
+            <input
+                type="text"
+                id="search"
+                placeholder="🔍 Search food..."
+                oninput="displayFoods()"
+            >
+
+            <select
+                id="filterCategory"
+                onchange="displayFoods()"
+            >
+
+                <option value="">All Categories</option>
+
+                <option value="Cooked Food">
+                    Cooked Food
+                </option>
+
+                <option value="Bakery">
+                    Bakery
+                </option>
+
+                <option value="Vegetables">
+                    Vegetables
+                </option>
+
+                <option value="Fruits">
+                    Fruits
+                </option>
+
+                <option value="Snacks">
+                    Snacks
+                </option>
+
+                <option value="Packed Food">
+                    Packed Food
+                </option>
+
+                <option value="Beverages">
+                    Beverages
+                </option>
+
+                <option value="Dairy">
+                    Dairy
+                </option>
+
+            </select>
+
+        </div>
+
+        <div id="foodGrid" class="food-grid"></div>
+
+    </div>
+
+</section>
+
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="page">
+
+    <div class="container">
+
+        <h2>📊 FoodLoop Dashboard</h2>
+
+        <p>
+            Track the impact created through food sharing.
+        </p>
+
+        <div class="dashboard-grid">
+
+            <div class="stat-card">
+                <h2 id="totalPortions">0</h2>
+                <p>Portions Rescued</p>
+            </div>
+
+            <div class="stat-card">
+                <h2 id="distributed">0</h2>
+                <p>Portions Distributed</p>
+            </div>
+
+            <div class="stat-card">
+                <h2 id="successfulClaims">0</h2>
+                <p>Successful Claims</p>
+            </div>
+
+            <div class="stat-card">
+                <h2 id="activeListings">0</h2>
+                <p>Active Listings</p>
+            </div>
+
+        </div>
+
+        <div class="progress-box">
+
+            <h3>🌱 Food Distribution Progress</h3>
+
+            <div class="progress">
+                <div
+                    id="progressBar"
+                    class="progress-bar">
+                </div>
+            </div>
+
+            <p id="progressText">
+                0% of available food distributed
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer>
+    <p>🍃 FoodLoop — Share Food. Reduce Waste. Build Community.</p>
+</footer>
+
+
+<div id="toast" class="toast"></div>
+
+
+<script>
+
+/* ==========================================
+   SAMPLE FOOD DATA
+========================================== */
+
+const defaultFoods = [
+
+    {
+        id: 1,
+        name: "Vegetable Rice",
+        category: "Cooked Food",
+        quantity: 30,
+        claimed: 5,
+        donor: "Velammal Engineering College",
+        contact: "9876543210",
+        location: "College Auditorium",
+        until: "2026-12-31T15:00"
+    },
+
+    {
+        id: 2,
+        name: "Sambar Rice",
+        category: "Cooked Food",
+        quantity: 25,
+        claimed: 8,
+        donor: "College Canteen",
+        contact: "9876543211",
+        location: "College Canteen",
+        until: "2026-12-31T16:00"
+    },
+
+    {
+        id: 3,
+        name: "Lemon Rice",
+        category: "Cooked Food",
+        quantity: 20,
+        claimed: 3,
+        donor: "Student Hostel",
+        contact: "9876543212",
+        location: "Hostel Block A",
+        until: "2026-12-31T17:00"
+    },
+
+    {
+        id: 4,
+        name: "Veg Biryani",
+        category: "Cooked Food",
+        quantity: 35,
+        claimed: 10,
+        donor: "Campus Event",
+        contact: "9876543213",
+        location: "Main Block",
+        until: "2026-12-31T18:00"
+    },
+
+    {
+        id: 5,
+        name: "Idli & Sambar",
+        category: "Cooked Food",
+        quantity: 40,
+        claimed: 12,
+        donor: "College Mess",
+        contact: "9876543214",
+        location: "Mess Hall",
+        until: "2026-12-31T14:00"
+    },
+
+    {
+        id: 6,
+        name: "Bread & Buns",
+        category: "Bakery",
+        quantity: 20,
+        claimed: 4,
+        donor: "Campus Bakery",
+        contact: "9876543215",
+        location: "Bakery Counter",
+        until: "2026-12-31T19:00"
+    },
+
+    {
+        id: 7,
+        name: "Vegetable Puffs",
+        category: "Bakery",
+        quantity: 15,
+        claimed: 5,
+        donor: "Fresh Bake Shop",
+        contact: "9876543216",
+        location: "Food Court",
+        until: "2026-12-31T18:30"
+    },
+
+    {
+        id: 8,
+        name: "Cookies",
+        category: "Bakery",
+        quantity: 30,
+        claimed: 7,
+        donor: "ABC Bakery",
+        contact: "9876543217",
+        location: "Bakery Section",
+        until: "2026-12-31T20:00"
+    },
+
+    {
+        id: 9,
+        name: "Sandwiches",
+        category: "Bakery",
+        quantity: 18,
+        claimed: 3,
+        donor: "Campus Cafe",
+        contact: "9876543218",
+        location: "Cafe Counter",
+        until: "2026-12-31T17:30"
+    },
+
+    {
+        id: 10,
+        name: "Fresh Carrots",
+        category: "Vegetables",
+        quantity: 25,
+        claimed: 5,
+        donor: "Local Vegetable Store",
+        contact: "9876543219",
+        location: "Market Area",
+        until: "2026-12-31T21:00"
+    },
+
+    {
+        id: 11,
+        name: "Fresh Tomatoes",
+        category: "Vegetables",
+        quantity: 30,
+        claimed: 8,
+        donor: "Green Farm",
+        contact: "9876543220",
+        location: "Farm Collection Center",
+        until: "2026-12-31T21:00"
+    },
+
+    {
+        id: 12,
+        name: "Potatoes",
+        category: "Vegetables",
+        quantity: 40,
+        claimed: 10,
+        donor: "Fresh Farm",
+        contact: "9876543221",
+        location: "Vegetable Market",
+        until: "2026-12-31T21:00"
+    },
+
+    {
+        id: 13,
+        name: "Fresh Spinach",
+        category: "Vegetables",
+        quantity: 20,
+        claimed: 4,
+        donor: "Green Leaf Farm",
+        contact: "9876543222",
+        location: "Farm Stall",
+        until: "2026-12-31T20:00"
+    },
+
+    {
+        id: 14,
+        name: "Fresh Bananas",
+        category: "Fruits",
+        quantity: 35,
+        claimed: 10,
+        donor: "Fruit Stall",
+        contact: "9876543223",
+        location: "Campus Market",
+        until: "2026-12-31T20:00"
+    },
+
+    {
+        id: 15,
+        name: "Fresh Apples",
+        category: "Fruits",
+        quantity: 20,
+        claimed: 5,
+        donor: "Fresh Fruit Shop",
+        contact: "9876543224",
+        location: "Main Market",
+        until: "2026-12-31T21:00"
+    },
+
+    {
+        id: 16,
+        name: "Oranges",
+        category: "Fruits",
+        quantity: 25,
+        claimed: 6,
+        donor: "Healthy Fruits",
+        contact: "9876543225",
+        location: "Fruit Market",
+        until: "2026-12-31T21:00"
+    },
+
+    {
+        id: 17,
+        name: "Watermelon",
+        category: "Fruits",
+        quantity: 10,
+        claimed: 2,
+        donor: "Fresh Farm",
+        contact: "9876543226",
+        location: "Farm Stall",
+        until: "2026-12-31T19:00"
+    },
+
+    {
+        id: 18,
+        name: "Papaya",
+        category: "Fruits",
+        quantity: 12,
+        claimed: 3,
+        donor: "Organic Farm",
+        contact: "9876543227",
+        location: "Farm Market",
+        until: "2026-12-31T20:00"
+    },
+
+    {
+        id: 19,
+        name: "Biscuits",
+        category: "Packed Food",
+        quantity: 40,
+        claimed: 12,
+        donor: "Campus Store",
+        contact: "9876543228",
+        location: "College Store",
+        until: "2027-01-15T20:00"
+    },
+
+    {
+        id: 20,
+        name: "Packaged Juice",
+        category: "Beverages",
+        quantity: 25,
+        claimed: 5,
+        donor: "Campus Cafe",
+        contact: "9876543229",
+        location: "Cafe Counter",
+        until: "2026-12-31T20:00"
+    },
+
+    {
+        id: 21,
+        name: "Milk Packets",
+        category: "Dairy",
+        quantity: 20,
+        claimed: 6,
+        donor: "Daily Fresh Dairy",
+        contact: "9876543230",
+        location: "Milk Collection Point",
+        until: "2026-12-31T18:00"
+    },
+
+    {
+        id: 22,
+        name: "Samosa",
+        category: "Snacks",
+        quantity: 30,
+        claimed: 10,
+        donor: "College Canteen",
+        contact: "9876543231",
+        location: "Canteen Counter",
+        until: "2026-12-31T17:00"
+    },
+
+    {
+        id: 23,
+        name: "Vada",
+        category: "Snacks",
+        quantity: 25,
+        claimed: 7,
+        donor: "Campus Cafe",
+        contact: "9876543232",
+        location: "Cafe Counter",
+        until: "2026-12-31T17:30"
+    }
+
+];
+
+
+/* ==========================================
+   LOCAL STORAGE
+========================================== */
+
+let foods = JSON.parse(localStorage.getItem("foodLoopFoods"));
+
+let claims = JSON.parse(localStorage.getItem("foodLoopClaims")) || [];
+
+if (!foods || foods.length === 0) {
+    foods = defaultFoods;
+    saveData();
+}
+
+
+/* ==========================================
+   SAVE DATA
+========================================== */
+
+function saveData() {
+
+    localStorage.setItem(
+        "foodLoopFoods",
+        JSON.stringify(foods)
+    );
+
+    localStorage.setItem(
+        "foodLoopClaims",
+        JSON.stringify(claims)
+    );
+}
+function resetFoodData() {
+
+    const confirmReset = confirm(
+        "Reset FoodLoop demo data and load all sample food items?"
+    );
+
+    if (!confirmReset) return;
+
+    localStorage.removeItem("foodLoopFoods");
+    localStorage.removeItem("foodLoopClaims");
+
+    foods = [...defaultFoods];
+    claims = [];
+
+    saveData();
+
+    displayFoods();
+    updateDashboard();
+
+    showToast("✅ 23 sample food items loaded!");
+}
+
+
+/* ==========================================
+   PAGE NAVIGATION
+========================================== */
+
+function showPage(pageId) {
+
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+    });
+
+    document.getElementById(pageId).classList.add("active");
+
+    if (pageId === "available") {
+        displayFoods();
+    }
+
+    if (pageId === "dashboard") {
+        updateDashboard();
+    }
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+/* ==========================================
+   FOOD EMOJI
+========================================== */
+
+function getFoodEmoji(category) {
+
+    const emojis = {
+
+        "Cooked Food": "🍚",
+        "Bakery": "🥐",
+        "Vegetables": "🥕",
+        "Fruits": "🍎",
+        "Snacks": "🥨",
+        "Packed Food": "🍪",
+        "Beverages": "🥤",
+        "Dairy": "🥛"
+
+    };
+
+    return emojis[category] || "🍱";
+}
+
+
+/* ==========================================
+   EXPIRY STATUS
+========================================== */
+
+function getExpiryStatus(until) {
+
+    const expiry = new Date(until);
+    const now = new Date();
+
+    const difference = expiry - now;
+
+    if (difference <= 0) {
+
+        return {
+            text: "🔴 Expired",
+            className: "expired"
+        };
+
+    }
+
+    const hours = difference / (1000 * 60 * 60);
+
+    if (hours <= 2) {
+
+        return {
+            text: "⚠️ Expires Soon",
+            className: "soon"
+        };
+
+    }
+
+    return {
+        text: "🟢 Available",
+        className: "available"
+    };
+}
+
+
+/* ==========================================
+   FORMAT DATE
+========================================== */
+
+function formatDate(dateString) {
+
+    const date = new Date(dateString);
+
+    return date.toLocaleString("en-IN", {
+        dateStyle: "medium",
+        timeStyle: "short"
+    });
+}
+
+
+/* ==========================================
+   DISPLAY FOOD
+========================================== */
+
+function displayFoods() {
+
+    const grid = document.getElementById("foodGrid");
+
+    const searchValue =
+        document.getElementById("search").value
+        .toLowerCase()
+        .trim();
+
+    const category =
+        document.getElementById("filterCategory").value;
+
+    let filteredFoods = foods.filter(food => {
+
+        const matchesSearch =
+            food.name.toLowerCase().includes(searchValue) ||
+            food.donor.toLowerCase().includes(searchValue) ||
+            food.location.toLowerCase().includes(searchValue);
+
+        const matchesCategory =
+            category === "" ||
+            food.category === category;
+
+        return matchesSearch && matchesCategory;
+    });
+
+
+    if (filteredFoods.length === 0) {
+
+        grid.innerHTML = `
+            <div class="empty">
+                <h3>😔 No food found</h3>
+                <p>Try another search or category.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    grid.innerHTML = filteredFoods.map(food => {
+
+        const remaining =
+            Math.max(0, food.quantity - food.claimed);
+
+        const expiryStatus =
+            getExpiryStatus(food.until);
+
+        return `
+
+            <div class="food-card">
+
+                <div class="food-icon">
+                    ${getFoodEmoji(food.category)}
+                </div>
+
+                <span class="category">
+                    ${food.category}
+                </span>
+
+                <h3>${food.name}</h3>
+
+                <div class="food-info">
+
+                    <p>
+                        <strong>📦 Quantity:</strong>
+                        ${food.quantity}
+                    </p>
+
+                    <p>
+                        <strong>✅ Remaining:</strong>
+                        ${remaining}
+                    </p>
+
+                    <p>
+                        <strong>👤 Donor:</strong>
+                        ${food.donor}
+                    </p>
+
+                    <p>
+                        <strong>📞 Contact:</strong>
+                        ${food.contact}
+                    </p>
+
+                    <p>
+                        <strong>📍 Pickup:</strong>
+                        ${food.location}
+                    </p>
+
+                    <p>
+                        <strong>⏰ Until:</strong>
+                        ${formatDate(food.until)}
+                    </p>
+
+                    <span class="status ${expiryStatus.className}">
+                        ${expiryStatus.text}
+                    </span>
+
+                </div>
+
+                <div class="card-buttons">
+
+                    ${
+                        remaining > 0 &&
+                        expiryStatus.className !== "expired"
+
+                        ?
+
+                        `<button
+                            class="claim-btn"
+                            onclick="claimFood(${food.id})">
+                            🤝 Claim
+                        </button>`
+
+                        :
+
+                        `<button
+                            class="claim-btn"
+                            disabled
+                            style="opacity:0.5;cursor:not-allowed;">
+                            Not Available
+                        </button>`
+                    }
+
+                    <button
+                        class="remove-btn"
+                        onclick="deleteFood(${food.id})">
+                        🗑 Remove
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }).join("");
+}
+
+
+/* ==========================================
+   ADD FOOD
+========================================== */
+
+document
+.getElementById("foodForm")
+.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+
+    const name =
+        document.getElementById("foodName").value.trim();
+
+    const category =
+        document.getElementById("category").value;
+
+    const quantity =
+        Number(document.getElementById("quantity").value);
+
+    const donor =
+        document.getElementById("donor").value.trim();
+
+    const contact =
+        document.getElementById("contact").value.trim();
+
+    const location =
+        document.getElementById("location").value.trim();
+
+    const until =
+        document.getElementById("until").value;
+
+
+    if (!/^[0-9]{10}$/.test(contact)) {
+
+        showToast(
+            "Please enter a valid 10-digit contact number."
+        );
+
+        return;
+    }
+
+
+    if (new Date(until) <= new Date()) {
+
+        showToast(
+            "Available Until must be a future date and time."
+        );
+
+        return;
+    }
+
+
+    const newFood = {
+
+        id: Date.now(),
+
+        name: name,
+
+        category: category,
+
+        quantity: quantity,
+
+        claimed: 0,
+
+        donor: donor,
+
+        contact: contact,
+
+        location: location,
+
+        until: until
+    };
+
+
+    foods.unshift(newFood);
+
+    saveData();
+
+
+    document
+    .getElementById("foodForm")
+    .reset();
+
+
+    showToast(
+        "✅ Food listing posted successfully!"
+    );
+
+
+    setTimeout(() => {
+        showPage("available");
+    }, 700);
+
+});
+
+
+/* ==========================================
+   CLAIM FOOD
+========================================== */
+
+function claimFood(id) {
+
+    const food =
+        foods.find(item => item.id === id);
+
+
+    if (!food) return;
+
+
+    const remaining =
+        food.quantity - food.claimed;
+
+
+    if (remaining <= 0) {
+
+        showToast(
+            "Sorry, this food is already fully claimed."
+        );
+
+        return;
+    }
+
+
+    const amount =
+        prompt(
+            `How many portions do you want to claim?\nAvailable: ${remaining}`
+        );
+
+
+    if (amount === null) return;
+
+
+    const claimAmount =
+        Number(amount);
+
+
+    if (
+        !Number.isInteger(claimAmount) ||
+        claimAmount <= 0 ||
+        claimAmount > remaining
+    ) {
+
+        showToast(
+            "Please enter a valid quantity."
+        );
+
+        return;
+    }
+
+
+    food.claimed += claimAmount;
+
+
+    claims.push({
+
+        foodId: id,
+
+        amount: claimAmount,
+
+        date: new Date().toISOString()
+
+    });
+
+
+    saveData();
+
+    displayFoods();
+
+    updateDashboard();
+
+
+    showToast(
+        `🤝 ${claimAmount} portion(s) claimed successfully!`
+    );
+}
+
+
+/* ==========================================
+   DELETE FOOD
+========================================== */
+
+function deleteFood(id) {
+
+    const confirmDelete =
+        confirm(
+            "Are you sure you want to remove this food listing?"
+        );
+
+
+    if (!confirmDelete) return;
+
+
+    foods =
+        foods.filter(food => food.id !== id);
+
+
+    saveData();
+
+    displayFoods();
+
+    updateDashboard();
+
+
+    showToast(
+        "🗑 Food listing removed."
+    );
+}
+
+
+/* ==========================================
+   DASHBOARD
+========================================== */
+
+function updateDashboard() {
+
+    const totalPortions =
+        foods.reduce(
+            (sum, food) => sum + food.quantity,
+            0
+        );
+
+
+    const distributed =
+        foods.reduce(
+            (sum, food) => sum + food.claimed,
+            0
+        );
+
+
+    const activeListings =
+        foods.filter(food => {
+
+            const remaining =
+                food.quantity - food.claimed;
+
+            return (
+                remaining > 0 &&
+                new Date(food.until) > new Date()
+            );
+
+        }).length;
+
+
+    document.getElementById(
+        "totalPortions"
+    ).textContent = totalPortions;
+
+
+    document.getElementById(
+        "distributed"
+    ).textContent = distributed;
+
+
+    document.getElementById(
+        "successfulClaims"
+    ).textContent = claims.length;
+
+
+    document.getElementById(
+        "activeListings"
+    ).textContent = activeListings;
+
+
+    let percentage = 0;
+
+    if (totalPortions > 0) {
+
+        percentage =
+            Math.round(
+                (distributed / totalPortions) * 100
+            );
+
+    }
+
+
+    document.getElementById(
+        "progressBar"
+    ).style.width = percentage + "%";
+
+
+    document.getElementById(
+        "progressText"
+    ).textContent =
+        percentage +
+        "% of available food distributed";
+}
+
+
+/* ==========================================
+   TOAST MESSAGE
+========================================== */
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById("toast");
+
+
+    toast.textContent = message;
+
+    toast.style.display = "block";
+
+
+    setTimeout(() => {
+
+        toast.style.display = "none";
+
+    }, 2500);
+}
+
+
+/* ==========================================
+   INITIAL LOAD
+========================================== */
+
+displayFoods();
+
+updateDashboard();
+
+</script>
+
+</body>
+</html>
